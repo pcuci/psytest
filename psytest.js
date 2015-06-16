@@ -1,17 +1,3 @@
-// See: http://stackoverflow.com/questions/15959501/how-to-add-cors-headers-to-a-meteor-app/19952565#19952565
-
-// attach connect-style middleware for response header injection
-Meteor.startup(function () {
-  // OrionJS GitHub issue: https://github.com/orionjs/orion/issues/205
-  var connectHandlers = WebApp.connectHandlers; // get meteor-core's connect-implementation
-  console.log(connectHandlers);
-  connectHandlers.use(function (req, res, next) {
-    res.setHeader('Strict-Transport-Security', 'max-age=2592000; includeSubDomains'); // 2592000s / 30 days
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    return next();
-  })
-})
-
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
@@ -31,7 +17,18 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+  // See: http://stackoverflow.com/questions/15959501/how-to-add-cors-headers-to-a-meteor-app/19952565#19952565
+
+  // attach connect-style middleware for response header injection
+  // OrionJS GitHub issue: https://github.com/orionjs/orion/issues/205
+  var connectHandlers = WebApp.connectHandlers; // get meteor-core's connect-implementation
   Meteor.startup(function () {
-    // code to run on server at startup
+    console.log("WebApp", WebApp);
+    console.log("connectHandlers", connectHandlers);
+    connectHandlers.use(function (req, res, next) {
+      res.setHeader('Strict-Transport-Security', 'max-age=2592000; includeSubDomains'); // 2592000s / 30 days
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      return next();
+    });
   });
 }
