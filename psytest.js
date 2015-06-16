@@ -23,7 +23,6 @@ if (Meteor.isServer) {
   // OrionJS GitHub issue: https://github.com/orionjs/orion/issues/205
   var connectHandlers = WebApp.connectHandlers; // get meteor-core's connect-implementation
   Meteor.startup(function () {
-    console.log("WebApp", WebApp);
     console.log("connectHandlers", connectHandlers);
     connectHandlers.use(function (req, res, next) {
       res.setHeader('Strict-Transport-Security', 'max-age=2592000; includeSubDomains'); // 2592000s / 30 days
