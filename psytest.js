@@ -1,11 +1,11 @@
 // See: http://stackoverflow.com/questions/15959501/how-to-add-cors-headers-to-a-meteor-app/19952565#19952565
 
-// OrionJS GitHub issue: https://github.com/orionjs/orion/issues/205
-var connectHandler = WebApp.connectHandlers; // get meteor-core's connect-implementation
-
 // attach connect-style middleware for response header injection
 Meteor.startup(function () {
-  connectHandler.use(function (req, res, next) {
+  // OrionJS GitHub issue: https://github.com/orionjs/orion/issues/205
+  var connectHandlers = WebApp.connectHandlers; // get meteor-core's connect-implementation
+  console.log(connectHandlers);
+  connectHandlers.use(function (req, res, next) {
     res.setHeader('Strict-Transport-Security', 'max-age=2592000; includeSubDomains'); // 2592000s / 30 days
     res.setHeader('Access-Control-Allow-Origin', '*');
     return next();
